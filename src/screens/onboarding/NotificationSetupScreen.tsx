@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNotificationPermission } from "../../hooks/useNotificationPermission";
-import { COLORS } from "../../theme";
-import OnboardingHeader from "../../components/onboarding/OnboardingHeader";
-import OnboardingButton from "../../components/onboarding/OnboardingButton";
-import NotificationPreviewCard from "../../components/onboarding/NotificationPreviewCard";
-import TimePickerRow from "../../components/onboarding/TimePickerRow";
+import { useNotificationPermission } from "@/hooks/useNotificationPermission";
+import { useColors } from "@/theme";
+import OnboardingHeader from "@/components/onboarding/OnboardingHeader";
+import OnboardingButton from "@/components/onboarding/OnboardingButton";
+import NotificationPreviewCard from "@/components/onboarding/NotificationPreviewCard";
+import TimePickerRow from "@/components/onboarding/TimePickerRow";
 
 function buildDate(hour: number, minute: number): Date {
   const d = new Date();
@@ -21,6 +21,7 @@ interface Props {
 export default function NotificationSetupScreen({ onComplete }: Props) {
   const [time, setTime] = useState<Date>(buildDate(20, 0));
   const { requestPermission } = useNotificationPermission();
+  const C = useColors();
 
   const handleSave = async () => {
     await requestPermission();
@@ -28,7 +29,7 @@ export default function NotificationSetupScreen({ onComplete }: Props) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: C.background }]}>
       <View style={styles.content}>
         <OnboardingHeader
           title="Get your daily parenting insight"
@@ -50,7 +51,6 @@ export default function NotificationSetupScreen({ onComplete }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
   },
   content: {
     flex: 1,

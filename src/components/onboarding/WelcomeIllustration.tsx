@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
-import { COLORS } from "../../theme";
 
 const { width } = Dimensions.get("window");
 
@@ -91,7 +90,7 @@ const styles = StyleSheet.create({
   },
   floatingTag: {
     position: "absolute",
-    backgroundColor: COLORS.white,
+    backgroundColor: "#FFFFFF",
     borderRadius: 20,
     paddingHorizontal: 12,
     paddingVertical: 6,

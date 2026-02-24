@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
-import { COLORS } from "../../theme";
+import { useColors } from "@/theme";
 
 interface Props {
   label: string;
@@ -9,9 +9,14 @@ interface Props {
 }
 
 export default function OnboardingButton({ label, onPress, disabled = false }: Props) {
+  const C = useColors();
   return (
     <TouchableOpacity
-      style={[styles.button, disabled && styles.buttonDisabled]}
+      style={[
+        styles.button,
+        { backgroundColor: C.purple, shadowColor: C.purpleDark },
+        disabled && styles.buttonDisabled,
+      ]}
       onPress={onPress}
       activeOpacity={0.85}
       disabled={disabled}
@@ -23,11 +28,9 @@ export default function OnboardingButton({ label, onPress, disabled = false }: P
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: COLORS.purple,
     borderRadius: 18,
     paddingVertical: 18,
     alignItems: "center",
-    shadowColor: COLORS.purpleDark,
     shadowOpacity: 0.4,
     shadowRadius: 12,
     shadowOffset: { width: 0, height: 6 },
@@ -39,7 +42,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 17,
     fontWeight: "700",
-    color: COLORS.white,
+    color: "#FFFFFF",
     letterSpacing: 0.3,
   },
 });

@@ -1,10 +1,10 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { AgeCategory } from "../../types";
-import { COLORS } from "../../theme";
-import OnboardingHeader from "../../components/onboarding/OnboardingHeader";
-import AgeOptionCard from "../../components/onboarding/AgeOptionCard";
+import { AgeCategory } from "@/types";
+import { useColors } from "@/theme";
+import OnboardingHeader from "@/components/onboarding/OnboardingHeader";
+import AgeOptionCard from "@/components/onboarding/AgeOptionCard";
 
 interface AgeOption {
   id: AgeCategory;
@@ -35,8 +35,9 @@ interface Props {
 }
 
 export default function AgeSelectionScreen({ onComplete }: Props) {
+  const C = useColors();
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: C.background }]}>
       <View style={styles.content}>
         <OnboardingHeader
           title="How old is your child?"
@@ -61,7 +62,6 @@ export default function AgeSelectionScreen({ onComplete }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
   },
   content: {
     flex: 1,

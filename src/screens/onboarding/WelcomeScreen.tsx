@@ -1,18 +1,19 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { COLORS } from "../../theme";
-import OnboardingButton from "../../components/onboarding/OnboardingButton";
-import OnboardingHeader from "../../components/onboarding/OnboardingHeader";
-import WelcomeIllustration from "../../components/onboarding/WelcomeIllustration";
+import { useColors } from "@/theme";
+import OnboardingButton from "@/components/onboarding/OnboardingButton";
+import OnboardingHeader from "@/components/onboarding/OnboardingHeader";
+import WelcomeIllustration from "@/components/onboarding/WelcomeIllustration";
 
 interface Props {
   onGetStarted: () => void;
 }
 
 export default function WelcomeScreen({ onGetStarted }: Props) {
+  const C = useColors();
   return (
-    <SafeAreaView style={styles.container} edges={["bottom"]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: C.background }]} edges={["bottom"]}>
       <WelcomeIllustration />
 
       <View style={styles.textContent}>
@@ -32,7 +33,6 @@ export default function WelcomeScreen({ onGetStarted }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
     justifyContent: "center",
   },
   textContent: {

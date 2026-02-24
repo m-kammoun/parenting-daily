@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Modal, Platform } from "react-native";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
-import { COLORS } from "../../theme";
+import { useColors } from "@/theme";
+import { useColorScheme } from "react-native";
 
 interface TimePickerRowProps {
   time: Date;
@@ -14,6 +15,8 @@ function pad(n: number) {
 
 export default function TimePickerRow({ time, onChange }: TimePickerRowProps) {
   const [showPicker, setShowPicker] = useState(false);
+  const C = useColors();
+  const scheme = useColorScheme();
 
   const handleChange = (_event: DateTimePickerEvent, selected?: Date) => {
     if (selected) onChange(selected);
@@ -21,9 +24,13 @@ export default function TimePickerRow({ time, onChange }: TimePickerRowProps) {
 
   return (
     <>
-      <TouchableOpacity style={styles.row} onPress={() => setShowPicker(true)} activeOpacity={0.75}>
-        <Text style={styles.label}>Notify me at</Text>
-        <View style={styles.chip}>
+      <TouchableOpacity
+        style={[styles.row, { backgroundColor: C.card }]}
+        onPress={() => setShowPicker(true)}
+        activeOpacity={0.75}
+      >
+        <Text style={[styles.label, { color: C.text }]}>Notify me at</Text>
+        <View style={[styles.chip, { backgroundColor: C.purple }]}>
           <Text style={styles.chipText}>
             {pad(time.getHours())}:{pad(time.getMinutes())}
           </Text>
@@ -53,29 +60,28 @@ export default function TimePickerRow({ time, onChange }: TimePickerRowProps) {
           onRequestClose={() => setShowPicker(false)}
         >
           <TouchableOpacity
-            style={styles.modalOverlay}
+            style={[styles.modalOverlay, { backgroundColor: C.modalOverlay }]}
             activeOpacity={1}
             onPress={() => setShowPicker(false)}
           />
-          <View style={styles.modalSheet}>
-            <View style={styles.modalHandle} />
-            <View style={styles.modalHeader}>
+          <View style={[styles.modalSheet, { backgroundColor: C.card }]}>
+            <View style={[styles.modalHandle, { backgroundColor: C.cardAlt }]} />
+            <View style={[styles.modalHeader, { borderBottomColor: C.border }]}>
               <TouchableOpacity onPress={() => setShowPicker(false)}>
-                <Text style={styles.modalCancel}>Cancel</Text>
+                <Text style={[styles.modalCancel, { color: C.textMuted }]}>Cancel</Text>
               </TouchableOpacity>
-              <Text style={styles.modalTitle}>Notification time</Text>
+              <Text style={[styles.modalTitle, { color: C.text }]}>Notification time</Text>
               <TouchableOpacity onPress={() => setShowPicker(false)}>
-                <Text style={styles.modalDone}>Done</Text>
+                <Text style={[styles.modalDone, { color: C.purple }]}>Done</Text>
               </TouchableOpacity>
             </View>
-            <View style={styles.pickerWrapper}>
+            <View style={[styles.pickerWrapper, { backgroundColor: C.card }]}>
               <DateTimePicker
                 value={time}
                 mode="time"
                 display="spinner"
                 onChange={handleChange}
-                themeVariant="dark"
-                textColor={COLORS.white}
+                themeVariant={scheme === "dark" ? "dark" : "light"}
                 style={styles.picker}
                 is24Hour
               />
@@ -89,7 +95,6 @@ export default function TimePickerRow({ time, onChange }: TimePickerRowProps) {
 
 const styles = StyleSheet.create({
   row: {
-    backgroundColor: COLORS.card,
     borderRadius: 18,
     paddingVertical: 16,
     paddingHorizontal: 20,
@@ -100,10 +105,8 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: "600",
-    color: COLORS.white,
   },
   chip: {
-    backgroundColor: COLORS.purple,
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 8,
@@ -111,16 +114,14 @@ const styles = StyleSheet.create({
   chipText: {
     fontSize: 16,
     fontWeight: "700",
-    color: COLORS.white,
+    color: "#FFFFFF",
   },
 
   /* iOS modal */
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.55)",
   },
   modalSheet: {
-    backgroundColor: COLORS.card,
     borderTopLeftRadius: 28,
     borderTopRightRadius: 28,
     paddingBottom: 36,
@@ -129,7 +130,6 @@ const styles = StyleSheet.create({
     width: 40,
     height: 4,
     borderRadius: 2,
-    backgroundColor: COLORS.cardAlt,
     alignSelf: "center",
     marginTop: 12,
     marginBottom: 4,
@@ -141,21 +141,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 14,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: COLORS.border,
   },
   modalTitle: {
     fontSize: 16,
     fontWeight: "700",
-    color: COLORS.white,
   },
   modalCancel: {
     fontSize: 15,
-    color: COLORS.textMuted,
     fontWeight: "500",
   },
   modalDone: {
     fontSize: 15,
-    color: COLORS.purple,
     fontWeight: "700",
   },
   pickerWrapper: {
@@ -163,7 +159,6 @@ const styles = StyleSheet.create({
     marginTop: 8,
     borderRadius: 18,
     overflow: "hidden",
-    backgroundColor: COLORS.card,
   },
   picker: {
     width: "100%",

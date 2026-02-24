@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { COLORS } from "../../theme";
+import { useColors } from "@/theme";
 
 interface Props {
   title: string;
@@ -8,10 +8,11 @@ interface Props {
 }
 
 export default function OnboardingHeader({ title, subtitle }: Props) {
+  const C = useColors();
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.subtitle}>{subtitle}</Text>
+      <Text style={[styles.title, { color: C.text }]}>{title}</Text>
+      <Text style={[styles.subtitle, { color: C.textMuted }]}>{subtitle}</Text>
     </View>
   );
 }
@@ -24,14 +25,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: "800",
-    color: COLORS.white,
     textAlign: "center",
     lineHeight: 38,
     marginBottom: 10,
   },
   subtitle: {
     fontSize: 15,
-    color: COLORS.textMuted,
     textAlign: "center",
     lineHeight: 22,
   },

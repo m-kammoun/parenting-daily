@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { COLORS } from "../../theme";
+import { useColors } from "@/theme";
 
 interface AgeOptionCardProps {
   label: string;
@@ -9,10 +9,15 @@ interface AgeOptionCardProps {
 }
 
 export default function AgeOptionCard({ label, description, onPress }: AgeOptionCardProps) {
+  const C = useColors();
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.75}>
-      <Text style={styles.label}>{label}</Text>
-      <Text style={styles.description}>{description}</Text>
+    <TouchableOpacity
+      style={[styles.card, { borderColor: C.border, backgroundColor: C.card }]}
+      onPress={onPress}
+      activeOpacity={0.75}
+    >
+      <Text style={[styles.label, { color: C.text }]}>{label}</Text>
+      <Text style={[styles.description, { color: C.textMuted }]}>{description}</Text>
     </TouchableOpacity>
   );
 }
@@ -20,7 +25,6 @@ export default function AgeOptionCard({ label, description, onPress }: AgeOption
 const styles = StyleSheet.create({
   card: {
     borderWidth: 1,
-    borderColor: COLORS.border,
     borderRadius: 999,
     paddingVertical: 18,
     paddingHorizontal: 28,
@@ -28,15 +32,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: COLORS.card,
   },
   label: {
-    color: COLORS.white,
     fontSize: 17,
     fontWeight: "600",
   },
   description: {
-    color: COLORS.textMuted,
     fontSize: 14,
   },
 });
