@@ -1,21 +1,26 @@
 import { useState } from "react";
 import * as Notifications from "expo-notifications";
-
-export type PermissionStatus = "idle" | "granted" | "denied";
+import { NotificationPermissionStatus } from "@/types";
 
 export function useNotificationPermission() {
-  const [status, setStatus] = useState<PermissionStatus>("idle");
+  const [status, setStatus] = useState<NotificationPermissionStatus>(
+    NotificationPermissionStatus.Idle
+  );
 
-  const requestPermission = async (): Promise<PermissionStatus> => {
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+  const requestPermission = async (): Promise<NotificationPermissionStatus> => {
+    const existing = await Notifications.getPermissionsAsync();
 
-    if (existingStatus === "granted") {
-      setStatus("granted");
-      return "granted";
+    if (existing.status === "granted") {
+      setStatus(NotificationPermissionStatus.Granted);
+      return NotificationPermissionStatus.Granted;
     }
 
-    const { status: newStatus } = await Notifications.requestPermissionsAsync();
-    const result = newStatus === "granted" ? "granted" : "denied";
+    const requested = await Notifications.requestPermissionsAsync();
+
+    const result =
+      requested.status === "granted"
+        ? NotificationPermissionStatus.Granted
+        : NotificationPermissionStatus.Denied;
     setStatus(result);
     return result;
   };

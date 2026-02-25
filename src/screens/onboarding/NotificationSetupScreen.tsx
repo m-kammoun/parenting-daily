@@ -7,6 +7,7 @@ import OnboardingHeader from "@/components/onboarding/OnboardingHeader";
 import OnboardingButton from "@/components/onboarding/OnboardingButton";
 import NotificationPreviewCard from "@/components/onboarding/NotificationPreviewCard";
 import TimePickerRow from "@/components/onboarding/TimePickerRow";
+import { NotificationPermissionStatus } from "@/types";
 
 function buildDate(hour: number, minute: number): Date {
   const d = new Date();
@@ -16,16 +17,22 @@ function buildDate(hour: number, minute: number): Date {
 
 interface Props {
   onComplete: (hour: number, minute: number) => void;
+  onPermissionDenied: () => void;
 }
 
-export default function NotificationSetupScreen({ onComplete }: Props) {
+export default function NotificationSetupScreen({ onComplete, onPermissionDenied }: Props) {
   const [time, setTime] = useState<Date>(buildDate(20, 0));
   const { requestPermission } = useNotificationPermission();
   const C = useColors();
 
   const handleSave = async () => {
-    await requestPermission();
-    onComplete(time.getHours(), time.getMinutes());
+    const result = await requestPermission();
+    if (result === NotificationPermissionStatus.Granted) {
+      onComplete(time.getHours(), time.getMinutes());
+    } else {
+      // Denied or permanently blocked — both go to the prompt screen
+      onPermissionDenied();
+    }
   };
 
   return (

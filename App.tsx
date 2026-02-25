@@ -4,33 +4,45 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import WelcomeScreen from "./src/screens/onboarding/WelcomeScreen";
 import AgeSelectionScreen from "./src/screens/onboarding/AgeSelectionScreen";
 import NotificationSetupScreen from "./src/screens/onboarding/NotificationSetupScreen";
-import { AgeCategory } from "./src/types";
-
-type OnboardingStep = "welcome" | "age-selection" | "notification-setup" | "done";
+import NotificationPromptScreen from "./src/screens/onboarding/NotificationPromptScreen";
+import { AgeCategory, OnboardingStep } from "./src/types";
 
 export default function App() {
-  const [step, setStep] = useState<OnboardingStep>("welcome");
+  const [step, setStep] = useState<OnboardingStep>(OnboardingStep.Welcome);
   const [ageCategory, setAgeCategory] = useState<AgeCategory | null>(null);
 
   const handleAgeSelected = (category: AgeCategory) => {
     setAgeCategory(category);
-    setStep("notification-setup");
+    setStep(OnboardingStep.NotificationSetup);
   };
 
   const handleNotificationSetupComplete = (hour: number, minute: number) => {
     // TODO: persist ageCategory + notification time, navigate to main screen
     console.log("Onboarding complete:", { ageCategory, hour, minute });
-    setStep("done");
+    setStep(OnboardingStep.Done);
   };
 
   return (
     <SafeAreaProvider>
-      {step === "welcome" && <WelcomeScreen onGetStarted={() => setStep("age-selection")} />}
-      {step === "age-selection" && <AgeSelectionScreen onComplete={handleAgeSelected} />}
-      {step === "notification-setup" && (
-        <NotificationSetupScreen onComplete={handleNotificationSetupComplete} />
+      {step === OnboardingStep.Welcome && (
+        <WelcomeScreen onGetStarted={() => setStep(OnboardingStep.AgeSelection)} />
       )}
-      <StatusBar style="light" />
+      {step === OnboardingStep.AgeSelection && (
+        <AgeSelectionScreen onComplete={handleAgeSelected} />
+      )}
+      {step === OnboardingStep.NotificationSetup && (
+        <NotificationSetupScreen
+          onComplete={handleNotificationSetupComplete}
+          onPermissionDenied={() => setStep(OnboardingStep.NotificationPrompt)}
+        />
+      )}
+      {step === OnboardingStep.NotificationPrompt && (
+        <NotificationPromptScreen
+          onComplete={() => setStep(OnboardingStep.Done)}
+          onSkip={() => setStep(OnboardingStep.Done)}
+        />
+      )}
+      <StatusBar style="auto" />
     </SafeAreaProvider>
   );
 }
