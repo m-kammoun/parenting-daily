@@ -49,7 +49,12 @@ export default function NotificationSetupScreen({ onComplete, onPermissionDenied
       </View>
 
       <View style={styles.footer}>
-        <OnboardingButton label="Allow and Save" onPress={handleSave} />
+        <OnboardingButton
+          label="Allow and Save"
+          onPress={() => {
+            void handleSave();
+          }}
+        />
       </View>
     </SafeAreaView>
   );

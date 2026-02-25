@@ -26,7 +26,9 @@ export default function TimePickerRow({ time, onChange }: TimePickerRowProps) {
     <>
       <TouchableOpacity
         style={[styles.row, { backgroundColor: C.card }]}
-        onPress={() => setShowPicker(true)}
+        onPress={() => {
+          setShowPicker(true);
+        }}
         activeOpacity={0.75}
       >
         <Text style={[styles.label, { color: C.text }]}>Notify me at</Text>
@@ -57,21 +59,33 @@ export default function TimePickerRow({ time, onChange }: TimePickerRowProps) {
           visible={showPicker}
           transparent
           animationType="slide"
-          onRequestClose={() => setShowPicker(false)}
+          onRequestClose={() => {
+            setShowPicker(false);
+          }}
         >
           <TouchableOpacity
             style={[styles.modalOverlay, { backgroundColor: C.modalOverlay }]}
             activeOpacity={1}
-            onPress={() => setShowPicker(false)}
+            onPress={() => {
+              setShowPicker(false);
+            }}
           />
           <View style={[styles.modalSheet, { backgroundColor: C.card }]}>
             <View style={[styles.modalHandle, { backgroundColor: C.cardAlt }]} />
             <View style={[styles.modalHeader, { borderBottomColor: C.border }]}>
-              <TouchableOpacity onPress={() => setShowPicker(false)}>
+              <TouchableOpacity
+                onPress={() => {
+                  setShowPicker(false);
+                }}
+              >
                 <Text style={[styles.modalCancel, { color: C.textMuted }]}>Cancel</Text>
               </TouchableOpacity>
               <Text style={[styles.modalTitle, { color: C.text }]}>Notification time</Text>
-              <TouchableOpacity onPress={() => setShowPicker(false)}>
+              <TouchableOpacity
+                onPress={() => {
+                  setShowPicker(false);
+                }}
+              >
                 <Text style={[styles.modalDone, { color: C.purple }]}>Done</Text>
               </TouchableOpacity>
             </View>

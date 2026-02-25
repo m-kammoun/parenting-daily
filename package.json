@@ -2,13 +2,14 @@
   "name": "parenting-daily",
   "version": "1.0.0",
   "main": "index.ts",
+  "type": "module",
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "lint": "eslint . --ext .ts,.tsx",
-    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format": "prettier --write \"**/*.{ts,tsx,json}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,json}\"",
     "check": "npm run format:check && npm run lint",
@@ -26,8 +27,9 @@
   "devDependencies": {
     "@types/react": "~19.1.0",
     "@types/react-native": "^0.72.8",
-    "@typescript-eslint/eslint-plugin": "^8.56.0",
-    "@typescript-eslint/parser": "^8.56.0",
+    "@typescript-eslint/eslint-plugin": "^8.56.1",
+    "@typescript-eslint/parser": "^8.56.1",
+    "typescript-eslint": "^8.56.1",
     "eslint": "^9.39.3",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
@@ -35,7 +37,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-native": "^5.0.0",
     "prettier": "^3.8.1",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.3"
   },
   "private": true
 }

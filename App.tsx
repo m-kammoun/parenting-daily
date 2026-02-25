@@ -25,7 +25,11 @@ export default function App() {
   return (
     <SafeAreaProvider>
       {step === OnboardingStep.Welcome && (
-        <WelcomeScreen onGetStarted={() => setStep(OnboardingStep.AgeSelection)} />
+        <WelcomeScreen
+          onGetStarted={() => {
+            setStep(OnboardingStep.AgeSelection);
+          }}
+        />
       )}
       {step === OnboardingStep.AgeSelection && (
         <AgeSelectionScreen onComplete={handleAgeSelected} />
@@ -33,13 +37,19 @@ export default function App() {
       {step === OnboardingStep.NotificationSetup && (
         <NotificationSetupScreen
           onComplete={handleNotificationSetupComplete}
-          onPermissionDenied={() => setStep(OnboardingStep.NotificationPrompt)}
+          onPermissionDenied={() => {
+            setStep(OnboardingStep.NotificationPrompt);
+          }}
         />
       )}
       {step === OnboardingStep.NotificationPrompt && (
         <NotificationPromptScreen
-          onComplete={() => setStep(OnboardingStep.Done)}
-          onSkip={() => setStep(OnboardingStep.Done)}
+          onComplete={() => {
+            setStep(OnboardingStep.Done);
+          }}
+          onSkip={() => {
+            setStep(OnboardingStep.Done);
+          }}
         />
       )}
       <StatusBar style="auto" />

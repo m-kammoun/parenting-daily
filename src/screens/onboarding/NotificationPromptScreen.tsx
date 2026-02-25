@@ -39,9 +39,14 @@ export default function NotificationPromptScreen({ onComplete, onSkip }: Props) 
       </View>
 
       <View style={styles.footer}>
-        <OnboardingButton label="Allow" onPress={handleAllow} />
+        <OnboardingButton
+          label="Allow"
+          onPress={() => {
+            void handleAllow();
+          }}
+        />
         <TouchableOpacity style={styles.skipButton} onPress={onSkip} activeOpacity={0.6}>
-          <Text style={[styles.skipText, { color: C.text }]}>I'm not ready yet</Text>
+          <Text style={[styles.skipText, { color: C.text }]}>I&apos;m not ready yet</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

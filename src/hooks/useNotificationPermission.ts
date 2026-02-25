@@ -10,7 +10,7 @@ export function useNotificationPermission() {
   const requestPermission = async (): Promise<NotificationPermissionStatus> => {
     const existing = await Notifications.getPermissionsAsync();
 
-    if (existing.status === "granted") {
+    if (existing.status === Notifications.PermissionStatus.GRANTED) {
       setStatus(NotificationPermissionStatus.Granted);
       return NotificationPermissionStatus.Granted;
     }
@@ -18,7 +18,7 @@ export function useNotificationPermission() {
     const requested = await Notifications.requestPermissionsAsync();
 
     const result =
-      requested.status === "granted"
+      requested.status === Notifications.PermissionStatus.GRANTED
         ? NotificationPermissionStatus.Granted
         : NotificationPermissionStatus.Denied;
     setStatus(result);
