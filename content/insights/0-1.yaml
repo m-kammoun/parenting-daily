@@ -1,0 +1,22 @@
+# Insights for: 0–1 years
+# Each entry maps to one row in the content table.
+# - sentence : the insight text shown to the user
+# - status   : draft | published
+
+- sentence: "Responding consistently to your baby's cries in the first months builds lifelong trust."
+  status: published
+
+- sentence: "Babies learn more from your face than any toy — uninterrupted eye contact is powerful."
+  status: published
+
+- sentence: "A predictable bedtime routine — even just 10 minutes — helps regulate your baby's sleep hormones."
+  status: published
+
+- sentence: "Tummy time, even for just a few minutes a day, strengthens the muscles needed for crawling."
+  status: published
+
+- sentence: "Narrating your daily activities out loud accelerates your baby's vocabulary development."
+  status: published
+
+- sentence: "Night wakings are normal in the first year — your baby's sleep cycles are simply shorter than yours."
+  status: published

@@ -1,0 +1,19 @@
+# Insights for: Prenatal
+# Each entry maps to one row in the content table.
+# - sentence : the insight text shown to the user
+# - status   : draft | published
+
+- sentence: "Talking or singing to your bump helps your baby recognise your voice at birth."
+  status: published
+
+- sentence: "Reading aloud during pregnancy exposes your baby to the rhythm and tone of language."
+  status: published
+
+- sentence: "Your baby already responds to your emotional tone — calm, connected moments matter now."
+  status: published
+
+- sentence: "The bond between you and your baby begins long before birth, through every word and touch."
+  status: published
+
+- sentence: "Imagining your baby's personality and talking to them builds the mental image that makes early bonding easier."
+  status: published

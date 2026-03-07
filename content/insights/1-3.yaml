@@ -1,0 +1,22 @@
+# Insights for: 1–3 years
+# Each entry maps to one row in the content table.
+# - sentence : the insight text shown to the user
+# - status   : draft | published
+
+- sentence: "Tantrums are communication — your toddler's prefrontal cortex isn't developed enough to regulate emotions yet."
+  status: published
+
+- sentence: "Offering two simple choices gives toddlers a sense of control and reduces power struggles."
+  status: published
+
+- sentence: "Reading the same book repeatedly isn't boring for toddlers — repetition is how they build comprehension."
+  status: published
+
+- sentence: "Parallel play — playing near but not with other children — is healthy and normal at this age."
+  status: published
+
+- sentence: "A consistent nap and sleep schedule helps toddlers regulate mood throughout the day."
+  status: published
+
+- sentence: "Messy play like water, sand, and clay builds fine motor skills and sensory processing."
+  status: published
