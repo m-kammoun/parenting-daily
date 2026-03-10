@@ -17,7 +17,7 @@ function buildDate(hour: number, minute: number): Date {
 
 interface Props {
   onComplete: (hour: number, minute: number) => void;
-  onPermissionDenied: () => void;
+  onPermissionDenied: (hour: number, minute: number) => void;
 }
 
 export default function NotificationSetupScreen({ onComplete, onPermissionDenied }: Props) {
@@ -30,8 +30,8 @@ export default function NotificationSetupScreen({ onComplete, onPermissionDenied
     if (result === NotificationPermissionStatus.Granted) {
       onComplete(time.getHours(), time.getMinutes());
     } else {
-      // Denied or permanently blocked — both go to the prompt screen
-      onPermissionDenied();
+      // Denied or permanently blocked — pass the chosen time along
+      onPermissionDenied(time.getHours(), time.getMinutes());
     }
   };
 

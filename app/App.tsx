@@ -7,16 +7,17 @@ import AgeSelectionScreen from "./src/screens/onboarding/AgeSelectionScreen";
 import NotificationSetupScreen from "./src/screens/onboarding/NotificationSetupScreen";
 import NotificationPromptScreen from "./src/screens/onboarding/NotificationPromptScreen";
 import FeedScreen from "./src/screens/feed/FeedScreen";
-import { useOnboardingState } from "./src/hooks/useOnboardingState";
+import { useSupabaseOnboarding } from "./src/hooks/useSupabaseOnboarding";
 import { AgeCategory, OnboardingStep } from "./src/types";
 
 export default function App() {
-  const { isOnboardingComplete, completeOnboarding } = useOnboardingState();
+  const { isOnboardingComplete, isRegistering, register } = useSupabaseOnboarding();
   const [step, setStep] = useState<OnboardingStep>(OnboardingStep.Welcome);
-  const [setAgeCategory] = useState<AgeCategory | null>(null);
+  const [ageCategory, setAgeCategory] = useState<AgeCategory | null>(null);
+  const [notificationTime, setNotificationTime] = useState({ hour: 20, minute: 0 });
 
   // Still loading persisted state
-  if (isOnboardingComplete === null) {
+  if (isOnboardingComplete === null || isRegistering) {
     return <View style={styles.splash} />;
   }
 
@@ -35,12 +36,9 @@ export default function App() {
     setStep(OnboardingStep.NotificationSetup);
   };
 
-  const handleOnboardingDone = async () => {
-    await completeOnboarding();
-  };
-
-  const handleNotificationSetupComplete = () => {
-    void handleOnboardingDone();
+  const handleRegister = async (hour: number, minute: number) => {
+    if (!ageCategory) return;
+    await register({ ageCategory, notificationHour: hour, notificationMinute: minute });
   };
 
   return (
@@ -57,8 +55,11 @@ export default function App() {
       )}
       {step === OnboardingStep.NotificationSetup && (
         <NotificationSetupScreen
-          onComplete={handleNotificationSetupComplete}
-          onPermissionDenied={() => {
+          onComplete={(hour, minute) => {
+            void handleRegister(hour, minute);
+          }}
+          onPermissionDenied={(hour: number, minute: number) => {
+            setNotificationTime({ hour, minute });
             setStep(OnboardingStep.NotificationPrompt);
           }}
         />
@@ -66,10 +67,10 @@ export default function App() {
       {step === OnboardingStep.NotificationPrompt && (
         <NotificationPromptScreen
           onComplete={() => {
-            void handleOnboardingDone();
+            void handleRegister(notificationTime.hour, notificationTime.minute);
           }}
           onSkip={() => {
-            void handleOnboardingDone();
+            void handleRegister(notificationTime.hour, notificationTime.minute);
           }}
         />
       )}

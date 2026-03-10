@@ -1,6 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
+apply plugin: "com.google.gms.google-services"
 
 def projectRoot = rootDir.getAbsoluteFile().getParentFile().getAbsolutePath()
 
@@ -155,6 +156,13 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+
+    // Firebase BoM — manages compatible versions of all Firebase libraries
+    implementation(platform("com.google.firebase:firebase-bom:34.10.0"))
+    // Firebase Cloud Messaging — required for Expo push notifications on Android
+    implementation("com.google.firebase:firebase-messaging")
+    // Firebase Analytics
+    implementation("com.google.firebase:firebase-analytics")
 
     def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";
     def isWebpEnabled = (findProperty('expo.webp.enabled') ?: "") == "true";
