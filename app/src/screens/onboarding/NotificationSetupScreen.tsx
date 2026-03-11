@@ -18,9 +18,14 @@ function buildDate(hour: number, minute: number): Date {
 interface Props {
   onComplete: (hour: number, minute: number) => void;
   onPermissionDenied: (hour: number, minute: number) => void;
+  isLoading?: boolean;
 }
 
-export default function NotificationSetupScreen({ onComplete, onPermissionDenied }: Props) {
+export default function NotificationSetupScreen({
+  onComplete,
+  onPermissionDenied,
+  isLoading,
+}: Props) {
   const [time, setTime] = useState<Date>(buildDate(20, 0));
   const { requestPermission } = useNotificationPermission();
   const C = useColors();
@@ -54,6 +59,7 @@ export default function NotificationSetupScreen({ onComplete, onPermissionDenied
           onPress={() => {
             void handleSave();
           }}
+          disabled={isLoading}
         />
       </View>
     </SafeAreaView>

@@ -16,8 +16,8 @@ export default function App() {
   const [ageCategory, setAgeCategory] = useState<AgeCategory | null>(null);
   const [notificationTime, setNotificationTime] = useState({ hour: 20, minute: 0 });
 
-  // Still loading persisted state
-  if (isOnboardingComplete === null || isRegistering) {
+  // Still loading persisted state (not the same as registering)
+  if (isOnboardingComplete === null) {
     return <View style={styles.splash} />;
   }
 
@@ -55,6 +55,7 @@ export default function App() {
       )}
       {step === OnboardingStep.NotificationSetup && (
         <NotificationSetupScreen
+          isLoading={isRegistering}
           onComplete={(hour, minute) => {
             void handleRegister(hour, minute);
           }}
