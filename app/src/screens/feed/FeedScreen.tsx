@@ -1,9 +1,10 @@
 import React, { useRef, useCallback, useState, useEffect, useMemo } from "react";
 import { View, FlatList, Dimensions, StyleSheet, ViewToken, StatusBar } from "react-native";
-import { Fact, getShuffledFacts } from "@assets/data/facts";
+import { Fact } from "@assets/data/facts";
 import FactCard from "@/components/feed/FactCard";
 import WelcomeCard from "@/components/feed/WelcomeCard";
 import { useWelcomeSeen } from "@/hooks/useWelcomeSeen";
+import { useFeed } from "@/hooks/useFeed";
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
@@ -15,11 +16,10 @@ interface WelcomeItem {
 
 type FeedItem = WelcomeItem | Fact;
 
-const FACTS = getShuffledFacts();
-
 export default function FeedScreen() {
   const [visibleIndex, setVisibleIndex] = useState(0);
   const { isWelcomeSeen, markWelcomeSeen } = useWelcomeSeen();
+  const { facts, initialIndex, isLoading: isFeedLoading } = useFeed();
 
   // Mark welcome as seen once the user scrolls past it (index > 0)
   useEffect(() => {
@@ -28,12 +28,16 @@ export default function FeedScreen() {
     }
   }, [visibleIndex, isWelcomeSeen, markWelcomeSeen]);
 
-  // Prepend welcome card only on first launch
+  // Data always includes the welcome card at position 0, followed by facts.
+  // We never remove items from the array — we just skip past them with initialScrollIndex.
   const data = useMemo<FeedItem[]>(() => {
-    if (isWelcomeSeen === null) return []; // still loading
-    if (isWelcomeSeen) return FACTS;
-    return [{ id: WELCOME_ITEM_ID }, ...FACTS];
-  }, [isWelcomeSeen]);
+    if (isWelcomeSeen === null || isFeedLoading) return [];
+    return [{ id: WELCOME_ITEM_ID } as WelcomeItem, ...facts];
+  }, [isWelcomeSeen, isFeedLoading, facts]);
+
+  // First launch: start at 0 (welcome card).
+  // Returning user: start at the latest fact (welcome + offset).
+  const startIndex = isWelcomeSeen ? initialIndex + 1 : 0;
 
   const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: ViewToken[] }) => {
     if (viewableItems.length > 0 && viewableItems[0].index !== null) {
@@ -70,7 +74,7 @@ export default function FeedScreen() {
 
   const keyExtractor = useCallback((item: FeedItem) => item.id, []);
 
-  if (isWelcomeSeen === null) {
+  if (isWelcomeSeen === null || isFeedLoading) {
     return <View style={styles.container} />;
   }
 
@@ -86,6 +90,7 @@ export default function FeedScreen() {
         snapToInterval={SCREEN_HEIGHT}
         snapToAlignment="start"
         disableIntervalMomentum
+        initialScrollIndex={startIndex}
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={viewabilityConfig}
         getItemLayout={(_, index) => ({
