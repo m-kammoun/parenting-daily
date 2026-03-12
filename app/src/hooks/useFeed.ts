@@ -24,7 +24,7 @@ import { Fact, SEED_FACTS } from "@assets/data/facts";
 interface PushLogRow {
   content_id: string;
   sent_at: string;
-  content: { sentence: string };
+  content: { sentence: string } | { sentence: string }[];
 }
 
 export interface UseFeedResult {
@@ -69,13 +69,13 @@ export function useFeed(): UseFeedResult {
 
         if (cancelled) return;
 
-        const key = (userRow as { age_buckets: { key: string } } | null)?.age_buckets?.key as
+        const key = (userRow as { age_buckets: { key: string } } | null)?.age_buckets.key as
           | Fact["category"]
           | undefined;
 
         setAgeBucket(key ?? null);
         if (!key) setIsLoading(false);
-      } catch (e) {
+      } catch {
         if (!cancelled) {
           setAgeBucket(null);
           setIsLoading(false);
@@ -113,8 +113,7 @@ export function useFeed(): UseFeedResult {
         throw new Error(fetchError.message);
       }
 
-      const rows: PushLogRow[] = data ?? [];
-      const fetched: Fact[] = rows.map((row) => ({
+      const fetched: Fact[] = data.map((row) => ({
         id: row.content_id,
         text: Array.isArray(row.content) ? (row.content[0]?.sentence ?? "") : row.content.sentence,
         category: ageBucket ?? "prenatal",
