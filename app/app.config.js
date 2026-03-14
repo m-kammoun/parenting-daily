@@ -1,0 +1,49 @@
+/** @type {import('expo/config').ExpoConfig} */
+
+module.exports = {
+  name: "parenting-daily",
+  slug: "parenting-daily",
+  version: "1.0.0",
+  orientation: "portrait",
+  icon: "./assets/icon.png",
+  userInterfaceStyle: "automatic",
+  newArchEnabled: true,
+  splash: {
+    image: "./assets/splash-icon.png",
+    resizeMode: "contain",
+    backgroundColor: "#ffffff",
+  },
+  ios: {
+    supportsTablet: true,
+  },
+  android: {
+    googleServicesFile: process.env.GOOGLE_SERVICES_JSON || "./google-services.json",
+    adaptiveIcon: {
+      foregroundImage: "./assets/adaptive-icon.png",
+      backgroundColor: "#ffffff",
+    },
+    edgeToEdgeEnabled: true,
+    predictiveBackGestureEnabled: false,
+    package: "com.kamenix.parentingdaily",
+  },
+  web: {
+    favicon: "./assets/favicon.png",
+  },
+  extra: {
+    eas: {
+      projectId: "4c9bd81a-1ad2-4142-8abb-847548067b31",
+    },
+  },
+  plugins: [
+    [
+      "expo-notifications",
+      {
+        icon: "./assets/icon.png",
+        color: "#6366F1",
+        sounds: [],
+      },
+    ],
+    "@react-native-community/datetimepicker",
+    "expo-font",
+  ],
+};

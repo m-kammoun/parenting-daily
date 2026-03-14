@@ -10,6 +10,8 @@ web-build/
 expo-env.d.ts
 
 # Native
+app/android/
+app/ios/
 .kotlin/
 *.orig.*
 *.jks
@@ -36,12 +38,6 @@ app/.env
 
 # typescript
 *.tsbuildinfo
-
-# generated native folders
-/ios
-/android
-app/android
-app/ios
 
 # Supabase CLI local state
 supabase/.temp/
