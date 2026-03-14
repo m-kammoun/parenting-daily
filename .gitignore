@@ -40,6 +40,8 @@ app/.env
 # generated native folders
 /ios
 /android
+app/android
+app/ios
 
 # Supabase CLI local state
 supabase/.temp/
